@@ -22,7 +22,7 @@ In its own words:
 
 Streamlit takes away much of the background work needed in order to get a platform which can deploy your models to clients and end users. Meaning that you get to focus on the important stuff (related to the data), and can largely ignore the rest. This will allow you to become a lot more productive.  
 
-##### Description of files
+##### Description of file
 
 For this repository, we are only concerned with a single file:
 

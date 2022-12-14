@@ -46,7 +46,9 @@ import string
 import urllib
 from wordcloud import WordCloud, STOPWORDS
 
-STOPWORDS = set(stopwords.words('english'))
+STOPWORDS = stopwords.words('english')
+STOPWORDS.append('http')
+STOPWORDS.append('https')
 
 # Reads 'train.csv.csv' file
 def classify_desc (description):
@@ -90,7 +92,7 @@ def remove_stop_words(text):
 
 def cleaning_text(tweet):
 	tweet = tweet.lower() #Change everything to lower case
-	tweet = re.sub(r"http\S+", "", tweet) # remove urls
+	tweet = re.sub('http[s]?://\S+', '', tweet) # remove urls
 	tweet = re.sub('[^a-zA-z0-9\s]', '', tweet) # remove all puncuation
 	tweet = ''.join([x for x in tweet if x not in string.punctuation]) # remove all special characters
 	tweet = "".join(filter(lambda x: not x.isdigit(), tweet)) #remove all digits
@@ -98,7 +100,12 @@ def cleaning_text(tweet):
 	return(tweet)
 
 	
+def random_color_func(word=None, font_size=None, position=None,  orientation=None, font_path=None, random_state=None):
+    h = int(360.0 * 21.0 / 255.0)
+    s = int(100.0 * 255.0 / 255.0)
+    l = int(100.0 * float(random_state.randint(20, 120)) / 255.0)
 
+    return "hsl({}, {}%, {}%)".format(h, s, l)
 		
 	
 def word_map(file):
@@ -118,13 +125,14 @@ def word_map(file):
 	
 			comment_words += " ".join(tokens)+" "
 
-		wordcloud = WordCloud(width = 800, height = 800,
+		wordcloud = WordCloud(width = 550, height = 200,
 					background_color ='white',
 					stopwords = stopwords,
-					min_font_size = 10).generate(comment_words)
+					color_func=random_color_func,
+					min_font_size = 8).generate(comment_words)
 
 		# plot the WordCloud image					
-		fig = plt.figure(figsize = (8, 8), facecolor = None)
+		fig = plt.figure(figsize = (6, 6), facecolor = None)
 		fig = plt.imshow(wordcloud)
 		fig = plt.axis("off")
 		fig = plt.tight_layout(pad = 0)
